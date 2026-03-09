@@ -1,0 +1,8 @@
+{
+    "name": "jobboard-fidurable",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+      "@notionhq/client": "^2.2.15"
+    }
+  }
