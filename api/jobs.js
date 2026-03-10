@@ -29,7 +29,7 @@ import { Client } from '@notionhq/client';
           titre: getText(p, 'Intitulé du poste', 'title'),
           entreprise:  getText(p, 'Entreprise', 'rich_text'),
           secteur: getSelect(p, "Secteur d'activité "),
-          contrat: getSelect(p, 'Type de contrat '),
+          contrat: getSelect(p, 'Type de contrat'),
           date_debut:  getDate(p, 'Date de début'),
           lieu:        getText(p, 'Lieu', 'rich_text'),
           niveau:      getSelect(p, "Niveau d'expérience", 'rich_text'),
