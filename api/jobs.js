@@ -26,16 +26,15 @@ import { Client } from '@notionhq/client';
         const p = page.properties;
         return {
           id: page.id,
-          titre:       getText(p, 'Intitulé du poste', 'title'),
+          titre:       getText(p, 'Intitulé du postes', 'title'),
           entreprise:  getText(p, 'Entreprise', 'rich_text'),
           secteur:     getSelect(p, "Secteur d'activité"),
-          secteur2:    getSelect(p, 'Secteur Secondaire'),
           contrat:     getSelect(p, 'Type de contrat'),
           date_debut:  getDate(p, 'Date de début'),
           lieu:        getText(p, 'Lieu', 'rich_text'),
-          niveau:      getText(p, "Niveau d'étude requis / Expérience", 'rich_text'),
-          description: getText(p, 'Description', 'rich_text'),
-          lien:        getUrl(p, "Lien de l'offre"),
+          niveau:      getText(p, "Niveau d'études/expériences requis", 'rich_text'),
+          description: getText(p, 'Descriptif du poste', 'rich_text'),
+          lien:        getUrl(p, "URL de l'offre"),
         };
       });
 
