@@ -28,8 +28,8 @@ import { Client } from '@notionhq/client';
           id: page.id,
           titre: getText(p, 'Intitulé du postes', 'title'),
           entreprise:  getText(p, 'Entreprise', 'rich_text'),
-          secteur:     getSelect(p, "Secteur d'activité"),
-          contrat:     getSelect(p, 'Type de contrat'),
+          secteur: getSelect(p, "Secteur d'activité "),
+          contrat: getSelect(p, 'Type de contrat '),
           date_debut:  getDate(p, 'Date de début'),
           lieu:        getText(p, 'Lieu', 'rich_text'),
           niveau:      getText(p, "Niveau d'études/expériences requis", 'rich_text'),
@@ -38,7 +38,7 @@ import { Client } from '@notionhq/client';
         };
       });
 
-      res.status(200).json({ debug_keys: Object.keys(response.results[0]?.properties || {}), jobs });
+      res.status(200).json(jobs);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Erreur lors de la récupération des offres' });
