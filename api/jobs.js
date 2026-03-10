@@ -26,7 +26,7 @@ import { Client } from '@notionhq/client';
         const p = page.properties;
         return {
           id: page.id,
-          titre: getText(p, 'Intitulé du poste', 'rich_text'),
+          titre: getText(p, 'Intitulé du postes', 'title'),
           entreprise:  getText(p, 'Entreprise', 'rich_text'),
           secteur:     getSelect(p, "Secteur d'activité"),
           contrat:     getSelect(p, 'Type de contrat'),
