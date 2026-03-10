@@ -32,7 +32,7 @@ import { Client } from '@notionhq/client';
           contrat: getSelect(p, 'Type de contrat '),
           date_debut:  getDate(p, 'Date de début'),
           lieu:        getText(p, 'Lieu', 'rich_text'),
-          niveau:      getText(p, "Niveau d'études/expériences requis", 'rich_text'),
+          niveau:      getSelect(p, "Niveau d'expérience", 'rich_text'),
           description: getText(p, 'Descriptif du poste', 'rich_text'),
           lien:        getUrl(p, "URL de l'offre"),
         };
