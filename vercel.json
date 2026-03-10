@@ -1,6 +1,6 @@
 {                                                         
     "routes": [
       { "src": "/api/jobs", "dest": "/api/jobs.js" },
-      { "src": "/jobboard", "dest": "/public/jobboard.html" }
+      { "src": "/jobboard", "dest": "/jobboard.html" }
     ]
   }
