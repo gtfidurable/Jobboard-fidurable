@@ -15,9 +15,9 @@ import { Client } from '@notionhq/client';
     try {
       const response = await notion.databases.query({
         database_id: databaseId,
-        filter: {
-          property: 'Status',
-          status: { equals: 'Publié' },
+          filter: {
+          property: 'État',
+          status: { equals: 'Ouvert' },
         },
         sorts: [{ timestamp: 'created_time', direction: 'descending' }],
       });
