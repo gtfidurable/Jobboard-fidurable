@@ -38,7 +38,7 @@ import { Client } from '@notionhq/client';
         };
       });
 
-      res.status(200).json(jobs);
+      res.status(200).json({ debug_keys: Object.keys(response.results[0]?.properties || {}), jobs });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Erreur lors de la récupération des offres' });
