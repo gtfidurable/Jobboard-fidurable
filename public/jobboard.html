@@ -326,7 +326,9 @@
               <div class="fjb-avatar">${esc(initiales)}</div>
               <div class="fjb-card-info">
                 <div class="fjb-card-titre">${esc(job.titre)}</div>
-                <div class="fjb-card-entreprise">${esc(job.entreprise)}</div>
+                  <div class="fjb-card-entreprise">${esc(job.entreprise)}</div>
+                  ${job.date_creation ? `<div
+                    style="font-size:.72rem;color:#9ca3af;margin-top:2px;">${timeAgo(job.date_creation)}</div>` : ''}
               </div>
               ${nouveau ? '<span class="fjb-badge-new">Nouveau</span>' : ''}
             </div>
