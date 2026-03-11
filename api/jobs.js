@@ -40,6 +40,7 @@ import { Client } from '@notionhq/client';
           description: getText(p, 'Descriptif du poste', 'rich_text'),
           lien:        getUrl(p, "URL de l'offre"),
           source: getSelect(p, 'Source'),
+          logo: getUrl(p, 'URL Logo'),
         };
       });
 
