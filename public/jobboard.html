@@ -186,6 +186,339 @@
   padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: .95rem; transition: background var(--transition), transform var(--transition), box-shadow
   var(--transition); box-shadow: 0 4px 16px rgba(28,68,63,.3); }
       .fjb-panel-cta:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(28,68,63,.35); }
+    
+/* ==================================================
+   HEADER FIDURABLE — MODERNE + CORPORATE (BLANKSLATE)
+================================================== */
+
+.fid-header,
+.fid-header *{
+  box-sizing:border-box;
+}
+
+/* Header global */
+.fid-header{
+  width:100%;
+  background:#ffffff;
+  padding-top:0;
+}
+
+/* Container centré */
+.fid-header__inner{
+  width:100%;
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+
+  /* hauteur plus institutionnelle */
+  padding:22px 32px;
+
+  /* grille équilibrée */
+  --buffer: clamp(28px, 4.5vw, 110px);
+
+  display:grid;
+  grid-template-columns: auto var(--buffer) 1fr var(--buffer) auto;
+  align-items:center;
+}
+
+/* placement des blocs */
+.fid-header__logo{ grid-column:1; justify-self:start; }
+.fid-menu{ grid-column:3; justify-self:center; }
+.fid-header__actions{ grid-column:5; justify-self:end; }
+
+/* ==================================================
+   LOGO
+================================================== */
+.fid-header__logo{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  white-space:nowrap;
+  min-width:210px;
+}
+
+.fid-header__logo img{
+  height:50px;           /* + logo FiDurable corporate */
+  width:auto;
+  display:block;
+  object-fit:contain;
+}
+
+/* ==================================================
+   MENU
+================================================== */
+.fid-menu{
+  display:flex;
+  align-items:center;
+  gap:56px;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  white-space:nowrap;
+}
+
+.fid-menu-item{
+  position:relative;
+}
+
+.fid-menu-link{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:14px 16px;
+
+  font-size:17px;        /* + lisible / institutionnel */
+  font-weight:500;
+  color:#0f2f2a;
+  text-decoration:none;
+
+  transition:color .2s ease;
+}
+
+/* flèche */
+.fid-arrow{
+  font-size:11px;
+  opacity:.55;
+  transform:translateY(1px);
+}
+
+/* underline */
+.fid-underline{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:4px;
+  height:2px;
+  background:linear-gradient(90deg,#1C443F,#2fae8c);
+  opacity:0;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .25s ease, opacity .25s ease;
+}
+
+.fid-menu-item:hover .fid-underline{
+  opacity:1;
+  transform:scaleX(1);
+}
+
+/* couleurs hover (supprime tout bleu) */
+.fid-menu a,
+.fid-menu a:visited{
+  color:#0f2f2a;
+}
+
+.fid-menu-link:hover,
+.fid-menu-link:focus-visible,
+.fid-menu-link:active{
+  color:#1C443F;
+  outline:none;
+}
+
+/* ==================================================
+   DROPDOWN
+================================================== */
+.fid-dropdown{
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%) translateY(14px);
+
+  min-width:340px;
+  background:#fff;
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 22px 55px rgba(0,0,0,.08);
+
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+
+  transition:opacity .25s ease, transform .25s ease;
+  z-index:9999;
+}
+
+.fid-menu-item.has-sub:hover .fid-dropdown{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+
+.fid-dropdown a{
+  display:block;
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:500;
+  color:#0f2f2a;
+  text-decoration:none;
+}
+
+.fid-dropdown a:hover{
+  background:#f2f6f5;
+  color:#1C443F;
+}
+
+/* ==================================================
+   ACTIONS
+================================================== */
+.fid-header__actions{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  white-space:nowrap;
+}
+
+/* profil */
+.fidurable-account{
+  width:46px;
+  height:46px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(0,0,0,.12);
+  text-decoration:none;
+  transition:transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.fidurable-account:hover{
+  transform:translateY(-1px);
+  background:rgba(0,0,0,.04);
+  border-color:rgba(0,0,0,.2);
+}
+
+.fidurable-account svg{
+  stroke:rgba(0,0,0,.55);
+}
+
+/* bouton CTA */
+.fidurable-cta{
+  height:46px;
+  padding:0 30px;
+  border-radius:999px;
+  background:#1C443F;
+  color:#fff !important;
+  font-weight:600;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.fidurable-cta:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 28px rgba(28,68,63,.25);
+}
+
+/* ==================================================
+   RESPONSIVE SIMPLE
+================================================== */
+@media (max-width:1100px){
+  .fid-header__inner{
+    padding:16px 20px;
+    --buffer:24px;
+  }
+
+  .fid-menu{
+    gap:36px;
+  }
+
+  .fid-menu-link{
+    font-size:16px;
+    padding:12px 14px;
+  }
+
+  .fid-header__logo{
+    min-width:160px;
+  }
+
+  .fid-header__logo img{
+    height:54px;
+  }
+
+  .fidurable-account{
+    width:44px;
+    height:44px;
+  }
+
+  .fidurable-cta{
+    height:44px;
+    padding:0 26px;
+  }
+}
+</style>
+
+<header class="fid-header">
+  <div class="fid-header__inner">
+
+    <!-- LOGO -->
+    <a class="fid-header__logo" href="/" aria-label="Accueil">
+      <img src="http://wfwsfzm.cluster100.hosting.ovh.net/wp-content/uploads/2025/12/Logo_Standard-2-e1766785882749.png" alt="FiDurable">
+    </a>
+
+    <!-- MENU -->
+    <nav class="fid-menu" aria-label="Navigation principale">
+
+      <div class="fid-menu-item has-sub">
+        <a href="#" class="fid-menu-link">
+          Le réseau <span class="fid-arrow">▾</span>
+          <span class="fid-underline"></span>
+        </a>
+        <div class="fid-dropdown">
+          <a href="/en-bref">En bref</a>
+          <a href="/marraines-parrains">Marraines & Parrains</a>
+          <a href="/notre-equipe">Notre équipe</a>
+        </div>
+      </div>
+
+      <div class="fid-menu-item has-sub">
+        <a href="#" class="fid-menu-link">
+          Partenaires <span class="fid-arrow">▾</span>
+          <span class="fid-underline"></span>
+        </a>
+        <div class="fid-dropdown">
+          <a href="/nos-sponsors">Nos sponsors</a>
+        </div>
+      </div>
+
+      <div class="fid-menu-item has-sub">
+        <a href="#" class="fid-menu-link">
+          Initiatives <span class="fid-arrow">▾</span>
+          <span class="fid-underline"></span>
+        </a>
+        <div class="fid-dropdown">
+          <a href="/mentorat">Mentorat</a>
+          <a href="/podcasts">Podcasts</a>
+        </div>
+      </div>
+
+      <div class="fid-menu-item">
+        <a href="/events" class="fid-menu-link">
+          Events <span class="fid-underline"></span>
+        </a>
+      </div>
+
+    </nav>
+
+    <!-- ACTIONS -->
+    <div class="fid-header__actions">
+      <a href="/connexion" class="fidurable-account" aria-label="Connexion membre">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke-width="2"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-width="2"/>
+        </svg>
+      </a>
+
+      <a class="fidurable-cta" href="/rejoindre">Candidater</a>
+    </div>
+
+  </div>
+</header>
+
     </style>
   </head>
   <body>
