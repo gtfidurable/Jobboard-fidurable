@@ -392,6 +392,8 @@
         if (job.niveau)     meta += metaRow('Niveau requis', esc(job.niveau));
         if (job.lieu)       meta += metaRow('Lieu', '📍 ' + esc(job.lieu));
         if (job.secteur2)   meta += metaRow('Secteur 2', esc(job.secteur2));
+        if (job.source)     meta += metaRow('Source', `<span style="display:inline-block;padding:2px
+       10px;border-radius:999px;font-size:.75rem;font-weight:700;background:${sourceColor(job.source)};color:#fff;">${esc(job.source)}</span>`);
 
         content.innerHTML = `
           <div class="fjb-panel-header">
@@ -454,6 +456,13 @@
         const weeks = Math.round(days / 7);
         if (weeks === 1) return 'ajouté il y a 1 semaine';
         return `ajouté il y a ${weeks} semaines`;
+      }
+
+      function sourceColor(source) {
+      if (source === 'Sélection FiDurable') return '#1C443F';
+      if (source === 'Membre du réseau')    return '#1a3a6b';
+    if (source === 'Partenaire')          return '#b45309';
+      return '#374151';
       }
       
       function esc(str) {
