@@ -19,7 +19,10 @@ import { Client } from '@notionhq/client';
           property: 'État',
           status: { equals: 'Ouverte' },
         },
-        sorts: [{ timestamp: 'created_time', direction: 'descending' }],
+        sorts: [
+    { property: 'Date de début', direction: 'ascending' },
+    { timestamp: 'created_time', direction: 'descending' },
+  ],
       });
 
       const jobs = response.results.map((page) => {
