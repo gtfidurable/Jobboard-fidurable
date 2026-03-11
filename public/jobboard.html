@@ -3,8 +3,8 @@
   <head>                                                                                                                                           
     <meta charset="UTF-8" />                                                                                                                       
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />                                                                       
-    <title>Jobboard FiDurable</title>
-    <style>
+    <title>Jobboard FiDurable</title>                                                                                                              
+    <style>                                                 
       :root {
         --green:      #1C443F;
         --green-dark: #0F3B36;
@@ -74,7 +74,7 @@
         color: var(--text);
         background: var(--white);
         transition: all var(--transition);
-        width: 260px;
+        width: 100%;
         outline: none;
       }
       #fjb-search::placeholder { color: var(--muted); }
@@ -295,11 +295,11 @@
       <div id="fjb-toolbar" style="display:none">
         <div class="fjb-toolbar-row">
           <input type="text" id="fjb-search" placeholder="🔍  Rechercher un poste ou une entreprise..." />
-          <select class="fjb-filter" id="filter-contrat"><option value="">Contrat</option></select>
         </div>
         <div class="fjb-toolbar-row">
           <div class="fjb-toolbar-left">
             <select class="fjb-filter" id="filter-secteur"><option value="">Tous les secteurs</option></select>
+            <select class="fjb-filter" id="filter-contrat"><option value="">Contrat</option></select>
             <select class="fjb-filter" id="filter-lieu"><option value="">Tous les lieux</option></select>
             <button id="fjb-reset">Réinitialiser</button>
           </div>
@@ -334,7 +334,6 @@
       const resetBtn   = document.getElementById('fjb-reset');
       let allJobs = [];
 
-      // ── Chargement ────────────────────────────────────────────────────
       async function loadJobs() {
         try {
           const res = await fetch(API_URL);
@@ -349,7 +348,6 @@
         }
       }
 
-      // ── Filtres ───────────────────────────────────────────────────────
       function buildFilters(jobs) {
         const unique = k => [...new Set(jobs.map(j => j[k]).filter(Boolean))];
         unique('secteur').forEach(v => selSecteur.innerHTML += `<option value="${esc(v)}">${esc(v)}</option>`);
@@ -383,14 +381,12 @@
         renderCards(allJobs);
       });
 
-      // ── Badge "Nouveau" ───────────────────────────────────────────────
       function isNouveau(isoDate) {
         if (!isoDate) return false;
         const diff = (Date.now() - new Date(isoDate)) / (1000 * 60 * 60 * 24);
         return diff >= 0 && diff <= 7;
       }
 
-      // ── Rendu cards ───────────────────────────────────────────────────
       function renderCards(jobs) {
         grid.innerHTML = '';
         const n = jobs.length;
@@ -443,10 +439,8 @@
             const badge = e.target.closest('.fjb-badge[data-filter]');
             if (badge) {
               e.stopPropagation();
-              const filter = badge.dataset.filter;
-              const value  = badge.dataset.value;
-              if (filter === 'secteur') selSecteur.value = value;
-              if (filter === 'contrat') selContrat.value = value;
+              if (badge.dataset.filter === 'secteur') selSecteur.value = badge.dataset.value;
+              if (badge.dataset.filter === 'contrat') selContrat.value = badge.dataset.value;
               applyFilters();
               return;
             }
@@ -462,7 +456,6 @@
         });
       }
 
-      // ── Panel ─────────────────────────────────────────────────────────
       function openPanel(job) {
         const initiales = getInitiales(job.entreprise);
         const contratCls = getContratCls(job.contrat);
@@ -510,7 +503,6 @@
       backdrop.addEventListener('click', closePanel);
       document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
 
-      // ── Helpers ───────────────────────────────────────────────────────
       function getInitiales(nom) {
         if (!nom) return '?';
         const m = nom.trim().split(/\s+/);
