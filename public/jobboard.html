@@ -78,6 +78,10 @@
       #fjb-reset { background: transparent; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px 16px; font-size: .83rem; font-family: inherit;
   font-weight: 500; color: var(--muted); cursor: pointer; transition: all var(--transition); }
       #fjb-reset:hover { border-color: var(--green); color: var(--green); }
+      #fjb-sort { background: transparent; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px
+  16px; font-size: .83rem; font-family: inherit; font-weight: 500; color: var(--muted); cursor: pointer;
+  transition: all var(--transition); }
+  #fjb-sort:hover, #fjb-sort.active { border-color: var(--green); color: var(--green); }
 
       /* ── Grid ── */
       #fjb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -238,6 +242,7 @@
       const selLieu    = document.getElementById('filter-lieu');
       const resetBtn   = document.getElementById('fjb-reset');
       let allJobs = [];
+      let sortAsc = true;
 
       // ── Chargement ────────────────────────────────────────────────────
       async function loadJobs() {
@@ -281,6 +286,19 @@
       [selSecteur, selContrat, selLieu].forEach(el => el.addEventListener('change', applyFilters));
       searchEl.addEventListener('input', applyFilters);
 
+      const sortBtn = document.getElementById('fjb-sort');
+      sortBtn.addEventListener('click', () => {
+        sortAsc = !sortAsc;
+        sortBtn.textContent = sortAsc ? '📅 Date de début ↑' : '📅 Date de début ↓';
+        sortBtn.classList.toggle('active', !sortAsc);
+        allJobs.sort((a, b) => {
+        const da = a.date_debut ? new Date(a.date_debut.split('/').reverse().join('-')) : new Date(0);
+        const db = b.date_debut ? new Date(b.date_debut.split('/').reverse().join('-')) : new Date(0);
+        return sortAsc ? da - db : db - da;
+      });
+        renderCards(getFiltered());
+      });
+      
       resetBtn.addEventListener('click', () => {
         selSecteur.value = ''; selContrat.value = ''; selLieu.value = '';
         searchEl.value = '';
