@@ -39,6 +39,7 @@ import { Client } from '@notionhq/client';
           niveau:      getSelect(p, "Niveau d'expérience", 'rich_text'),
           description: getText(p, 'Descriptif du poste', 'rich_text'),
           lien:        getUrl(p, "URL de l'offre"),
+          source: getSelect(p, 'Source'),
         };
       });
 
