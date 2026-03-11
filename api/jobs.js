@@ -19,7 +19,7 @@ import { Client } from '@notionhq/client';
           database_id: databaseId,
           filter: {
             property: 'État',
-            status: { equals: 'Ouvert' },
+            status: { equals: 'Ouverte' },
           },
           sorts: [
             { property: 'Date de début', direction: 'ascending' },
