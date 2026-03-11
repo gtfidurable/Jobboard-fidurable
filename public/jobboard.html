@@ -1,6 +1,6 @@
 <!DOCTYPE html>                                                                                                                                  
   <html lang="fr">                                                                                                                                 
-  <head>                                                    
+  <head>                                                                                                                                           
     <meta charset="UTF-8" />                                                                                                                       
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />                                                                       
     <title>Jobboard FiDurable</title>
@@ -45,15 +45,24 @@
         background: rgba(240,244,243,.92);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        padding: 12px 0;
+        padding: 12px 28px;
         margin: 0 -28px 24px;
-        padding-left: 28px;
-        padding-right: 28px;
         display: flex;
-        align-items: center;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 10px;
         border-bottom: 1px solid var(--border);
+      }
+      .fjb-toolbar-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .fjb-toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
       }
       #fjb-search {
         border: 1.5px solid var(--border);
@@ -65,13 +74,11 @@
         color: var(--text);
         background: var(--white);
         transition: all var(--transition);
-        width: 200px;
+        width: 260px;
         outline: none;
       }
       #fjb-search::placeholder { color: var(--muted); }
       #fjb-search:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(28,68,63,.1); }
-      #fjb-count { font-size: .85rem; font-weight: 700; color: var(--green); background: rgba(28,68,63,.08); padding: 8px 16px; border-radius:
-  999px; white-space: nowrap; }
       .fjb-filter { appearance: none; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px 18px; font-size: .83rem; font-family:
   inherit; font-weight: 500; color: var(--text); background: var(--white); cursor: pointer; transition: all var(--transition); outline: none; }
       .fjb-filter:hover { border-color: var(--green); color: var(--green); }
@@ -79,9 +86,10 @@
       #fjb-reset { background: transparent; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px 16px; font-size: .83rem;
   font-family: inherit; font-weight: 500; color: var(--muted); cursor: pointer; transition: all var(--transition); }
       #fjb-reset:hover { border-color: var(--green); color: var(--green); }
-      #fjb-sort { background: transparent; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px 16px; font-size: .83rem;
-  font-family: inherit; font-weight: 500; color: var(--muted); cursor: pointer; transition: all var(--transition); }
-      #fjb-sort:hover, #fjb-sort.active { border-color: var(--green); color: var(--green); }
+      #fjb-add-btn { height: 36px; padding: 0 20px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 600; font-family:
+  inherit; font-size: .83rem; display: inline-flex; align-items: center; text-decoration: none; transition: transform .2s ease, box-shadow .2s
+  ease; white-space: nowrap; }
+      #fjb-add-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(28,68,63,.25); }
 
       /* ── Grid ── */
       #fjb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -268,7 +276,7 @@
 
       <div class="fjb-header">
         <h1>Jobboard FiDurable</h1>
-        <p>Offres finance durable sélectionnées et proposées par le réseau</p>
+        <p id="fjb-count">Chargement des offres...</p>
       </div>
 
       <!-- Skeleton loading -->
@@ -285,13 +293,18 @@
 
       <!-- Toolbar sticky -->
       <div id="fjb-toolbar" style="display:none">
-        <span id="fjb-count">0 offres</span>
-        <input type="text" id="fjb-search" placeholder="🔍  Rechercher un poste ou une entreprise..." />
-        <select class="fjb-filter" id="filter-secteur"><option value="">Tous les secteurs</option></select>
-        <select class="fjb-filter" id="filter-contrat"><option value="">Tous les contrats</option></select>
-        <select class="fjb-filter" id="filter-lieu"><option value="">Tous les lieux</option></select>
-        <button id="fjb-sort">📅 Date de début ↑</button>
-        <button id="fjb-reset">Réinitialiser</button>
+        <div class="fjb-toolbar-row">
+          <input type="text" id="fjb-search" placeholder="🔍  Rechercher un poste ou une entreprise..." />
+          <select class="fjb-filter" id="filter-contrat"><option value="">Contrat</option></select>
+        </div>
+        <div class="fjb-toolbar-row">
+          <div class="fjb-toolbar-left">
+            <select class="fjb-filter" id="filter-secteur"><option value="">Tous les secteurs</option></select>
+            <select class="fjb-filter" id="filter-lieu"><option value="">Tous les lieux</option></select>
+            <button id="fjb-reset">Réinitialiser</button>
+          </div>
+          <a href="#" id="fjb-add-btn">+ Ajouter une offre</a>
+        </div>
       </div>
 
       <div id="fjb-grid"></div>
@@ -320,7 +333,6 @@
       const selLieu    = document.getElementById('filter-lieu');
       const resetBtn   = document.getElementById('fjb-reset');
       let allJobs = [];
-      let sortAsc = true;
 
       // ── Chargement ────────────────────────────────────────────────────
       async function loadJobs() {
@@ -364,19 +376,6 @@
       [selSecteur, selContrat, selLieu].forEach(el => el.addEventListener('change', applyFilters));
       searchEl.addEventListener('input', applyFilters);
 
-      const sortBtn = document.getElementById('fjb-sort');
-      sortBtn.addEventListener('click', () => {
-        sortAsc = !sortAsc;
-        sortBtn.textContent = sortAsc ? '📅 Date de début ↑' : '📅 Date de début ↓';
-        sortBtn.classList.toggle('active', !sortAsc);
-        allJobs.sort((a, b) => {
-          const da = a.date_debut ? new Date(a.date_debut.split('/').reverse().join('-')) : new Date(0);
-          const db = b.date_debut ? new Date(b.date_debut.split('/').reverse().join('-')) : new Date(0);
-          return sortAsc ? da - db : db - da;
-        });
-        renderCards(getFiltered());
-      });
-
       resetBtn.addEventListener('click', () => {
         selSecteur.value = ''; selContrat.value = ''; selLieu.value = '';
         searchEl.value = '';
@@ -394,7 +393,8 @@
       // ── Rendu cards ───────────────────────────────────────────────────
       function renderCards(jobs) {
         grid.innerHTML = '';
-        countEl.textContent = `${jobs.length} offre${jobs.length > 1 ? 's' : ''}`;
+        const n = jobs.length;
+        countEl.textContent = `${n} offre${n > 1 ? 's' : ''} sélectionné${n > 1 ? 'es' : 'e'} et proposée${n > 1 ? 's' : ''} par le réseau`;
 
         if (!jobs.length) {
           grid.innerHTML = `<div class="fjb-empty">
