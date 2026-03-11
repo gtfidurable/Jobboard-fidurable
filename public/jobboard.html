@@ -288,14 +288,11 @@
       });
 
       // ── Badge "Nouveau" ───────────────────────────────────────────────
-      function isNouveau(dateStr) {
-        if (!dateStr) return false;
-        const parts = dateStr.split('/');
-        if (parts.length !== 3) return false;
-        const d = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-        const diff = (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
-        return diff >= 0 && diff <= 7;
-      }
+      function isNouveau(isoDate) {
+    if (!isoDate) return false;
+    const diff = (Date.now() - new Date(isoDate)) / (1000 * 60 * 60 * 24);
+    return diff >= 0 && diff <= 7;
+  }
 
       // ── Rendu cards ───────────────────────────────────────────────────
       function renderCards(jobs) {
