@@ -6,17 +6,17 @@
     <title>Jobboard FiDurable</title>                                                                        
     <style>
       :root {
-        --green:      #1C443F;
-        --green-dark: #0F3B36;
-        --white:      #FFFFFF;
-        --bg:         #F0F4F3;
-        --text:       #0B1220;
-        --muted:      rgba(11,18,32,.5);
-        --border:     rgba(11,18,32,.08);
-        --radius:     18px;
-        --shadow:     0 4px 24px rgba(11,18,32,.07);
+        --green:        #1C443F;
+        --green-dark:   #0F3B36;
+        --white:        #FFFFFF;
+        --bg:           #F0F4F3;
+        --text:         #0B1220;
+        --muted:        rgba(11,18,32,.5);
+        --border:       rgba(11,18,32,.08);
+        --radius:       18px;
+        --shadow:       0 4px 24px rgba(11,18,32,.07);
         --shadow-hover: 0 16px 48px rgba(11,18,32,.14);
-        --transition: .25s ease;
+        --transition:   .25s ease;
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       body { font-family: Inter, system-ui, -apple-system, sans-serif; background: var(--bg); color:
@@ -55,6 +55,10 @@
       }
       .fjb-toolbar-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .fjb-toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+      /* Ligne 1 : bouton + search */
+      .fjb-toolbar-row:first-child #fjb-search { flex: 1; width: auto; }
+
       #fjb-search {
         border: 1.5px solid var(--border);
         border-radius: 999px;
@@ -82,7 +86,7 @@
       #fjb-add-btn { height: 36px; padding: 0 20px; border-radius: 999px; background: var(--green); color:
   #fff; font-weight: 600; font-family: inherit; font-size: .83rem; display: inline-flex; align-items: center;
    text-decoration: none; border: none; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
-   white-space: nowrap; }
+   white-space: nowrap; flex-shrink: 0; }
       #fjb-add-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(28,68,63,.25); }
 
       /* ── Grid ── */
@@ -238,7 +242,25 @@
       .fjb-toast.success { background: rgba(22,163,74,.1); color: #15803d; border: 1px solid
   rgba(22,163,74,.2); display: block; }
       .fjb-toast.error   { background: rgba(220,38,38,.1);  color: #b91c1c;  border: 1px solid
-  rgba(220,38,38,.2);  display: block; }
+  rgba(220,38,38,.2); display: block; }
+
+      /* ── Mobile ── */
+      @media (max-width: 620px) {
+        #fjb-toolbar { padding: 10px 16px; margin: 0 -16px 20px; gap: 8px; }
+
+        /* Ligne 1 : bouton à gauche, search à droite */
+        .fjb-toolbar-row:first-child { flex-direction: row; }
+        #fjb-add-btn { font-size: .75rem; padding: 0 14px; height: 34px; }
+
+        /* Ligne 2 : filtres en grille 2 colonnes */
+        .fjb-toolbar-row:last-child { flex-direction: column; gap: 8px; }
+        .fjb-toolbar-left { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+        .fjb-toolbar-left .fjb-filter,
+        #fjb-reset { width: 100%; text-align: center; }
+
+        /* Fix date input même largeur que les autres */
+        input[type="date"].fjb-form-input { width: 100%; min-width: 0; }
+      }
     </style>
   </head>
   <body>
@@ -261,8 +283,10 @@
         </div>
       </div>
 
+      <!-- ✏️  MODIFIÉ : bouton déplacé dans la ligne de recherche -->
       <div id="fjb-toolbar" style="display:none">
         <div class="fjb-toolbar-row">
+          <button id="fjb-add-btn">+ Ajouter une offre</button>
           <input type="text" id="fjb-search" placeholder="🔍  Rechercher un poste ou une entreprise..." />
         </div>
         <div class="fjb-toolbar-row">
@@ -273,7 +297,6 @@
             <select class="fjb-filter" id="filter-lieu"><option value="">Tous les lieux</option></select>
             <button id="fjb-reset">Réinitialiser</button>
           </div>
-          <button id="fjb-add-btn">+ Ajouter une offre</button>
         </div>
       </div>
 
@@ -314,20 +337,21 @@
             <div class="fjb-form-row">
               <div class="fjb-form-field">
                 <label class="fjb-form-label" for="f-secteur">Secteur d'activité</label>
-               <select class="fjb-form-select" id="f-secteur" name="secteur">
-                <option value="">— Choisir —</option>
-                <option>Banque</option>
-                <option>Asset Manager</option>
-                <option>Asset Owner</option>
-                <option>Assurance</option>
-                <option>Conseil</option>
-                <option>Recherche</option>
-                <option>R&D</option>
-                <option>Data provider</option>
-                <option>Régulateur</option>
-                <option>Institution publique</option>
-                <option>Corporate</option>
-              </select>
+                <!-- ✏️  MODIFIÉ : secteurs alignés avec Notion -->
+                <select class="fjb-form-select" id="f-secteur" name="secteur">
+                  <option value="">— Choisir —</option>
+                  <option>Banque</option>
+                  <option>Asset Manager</option>
+                  <option>Asset Owner</option>
+                  <option>Assurance</option>
+                  <option>Conseil</option>
+                  <option>Recherche</option>
+                  <option>R&D</option>
+                  <option>Data provider</option>
+                  <option>Régulateur</option>
+                  <option>Institution publique</option>
+                  <option>Corporate</option>
+                </select>
               </div>
               <div class="fjb-form-field">
                 <label class="fjb-form-label" for="f-contrat">Type de contrat</label>
@@ -385,27 +409,27 @@
 
     <script>
       const API_URL = '/api/jobs';
-      const skeleton   = document.getElementById('fjb-skeleton');
-      const toolbar    = document.getElementById('fjb-toolbar');
-      const countEl    = document.getElementById('fjb-count');
-      const grid       = document.getElementById('fjb-grid');
-      const panel      = document.getElementById('fjb-panel');
-      const backdrop   = document.getElementById('fjb-backdrop');
-      const closeBtn   = document.getElementById('fjb-panel-close');
-      const content    = document.getElementById('fjb-panel-content');
-      const searchEl   = document.getElementById('fjb-search');
-      const selSecteur = document.getElementById('filter-secteur');
-      const selContrat = document.getElementById('filter-contrat');
-      const selLieu    = document.getElementById('filter-lieu');
-      const resetBtn   = document.getElementById('fjb-reset');
-      const addBtn     = document.getElementById('fjb-add-btn');
-      const modal      = document.getElementById('fjb-modal');
-      const modalClose = document.getElementById('fjb-modal-close');
+      const skeleton     = document.getElementById('fjb-skeleton');
+      const toolbar      = document.getElementById('fjb-toolbar');
+      const countEl      = document.getElementById('fjb-count');
+      const grid         = document.getElementById('fjb-grid');
+      const panel        = document.getElementById('fjb-panel');
+      const backdrop     = document.getElementById('fjb-backdrop');
+      const closeBtn     = document.getElementById('fjb-panel-close');
+      const content      = document.getElementById('fjb-panel-content');
+      const searchEl     = document.getElementById('fjb-search');
+      const selSecteur   = document.getElementById('filter-secteur');
+      const selContrat   = document.getElementById('filter-contrat');
+      const selLieu      = document.getElementById('filter-lieu');
+      const resetBtn     = document.getElementById('fjb-reset');
+      const addBtn       = document.getElementById('fjb-add-btn');
+      const modal        = document.getElementById('fjb-modal');
+      const modalClose   = document.getElementById('fjb-modal-close');
       const modalOverlay = document.getElementById('fjb-modal-overlay');
-      const form       = document.getElementById('fjb-form');
-      const submitBtn  = document.getElementById('fjb-submit');
-      const submitHint = document.getElementById('fjb-submit-hint');
-      const formToast  = document.getElementById('fjb-form-toast');
+      const form         = document.getElementById('fjb-form');
+      const submitBtn    = document.getElementById('fjb-submit');
+      const submitHint   = document.getElementById('fjb-submit-hint');
+      const formToast    = document.getElementById('fjb-form-toast');
       let allJobs = [];
 
       async function loadJobs() {
@@ -615,8 +639,8 @@
 
         if (!titre || !entreprise || !lien) {
           formToast.className = 'fjb-toast error';
-          formToast.textContent = 'Merci de renseigner au minimum le titre, l\'entreprise et l\'URL de
-  l\'offre.';
+          formToast.textContent = "Merci de renseigner au minimum le titre, l'entreprise et l'URL de
+  l'offre.";
           return;
         }
 
@@ -651,7 +675,7 @@
 
         } catch (err) {
           formToast.className = 'fjb-toast error';
-          formToast.textContent = 'Erreur lors de l\'envoi. Vérifiez l\'URL et réessayez.';
+          formToast.textContent = "Erreur lors de l'envoi. Vérifiez l'URL et réessayez.";
         } finally {
           submitBtn.disabled = false;
           submitHint.style.display = 'none';
@@ -661,25 +685,25 @@
       function getInitiales(nom) {
         if (!nom) return '?';
         const m = nom.trim().split(/\s+/);
-        return m.length === 1 ? m[0].substring(0,2).toUpperCase() : (m[0][0]+m[1][0]).toUpperCase();
+        return m.length === 1 ? m[0].substring(0, 2).toUpperCase() : (m[0][0] + m[1][0]).toUpperCase();
       }
 
       function getContratCls(contrat) {
         if (!contrat) return 'fjb-badge--autre';
         const c = contrat.toLowerCase();
-        if (c.includes('stage'))                             return 'fjb-badge--stage';
-        if (c.includes('cdi'))                               return 'fjb-badge--cdi';
-        if (c.includes('alternance') || c.includes('alter')) return 'fjb-badge--alternance';
-        if (c.includes('phd') || c.includes('doctorat'))     return 'fjb-badge--phd';
+        if (c.includes('stage'))                              return 'fjb-badge--stage';
+        if (c.includes('cdi'))                                return 'fjb-badge--cdi';
+        if (c.includes('alternance') || c.includes('alter'))  return 'fjb-badge--alternance';
+        if (c.includes('phd') || c.includes('doctorat'))      return 'fjb-badge--phd';
         return 'fjb-badge--autre';
       }
 
       function timeAgo(isoDate) {
         if (!isoDate) return '';
         const days = Math.round((Date.now() - new Date(isoDate)) / 86400000);
-        if (days < 1) return 'ajouté aujourd\'hui';
+        if (days < 1)  return "ajouté aujourd'hui";
         if (days === 1) return 'ajouté il y a 1 jour';
-        if (days < 7) return `ajouté il y a ${days} jours`;
+        if (days < 7)  return `ajouté il y a ${days} jours`;
         const weeks = Math.round(days / 7);
         if (weeks === 1) return 'ajouté il y a 1 semaine';
         return `ajouté il y a ${weeks} semaines`;
