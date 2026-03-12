@@ -1,9 +1,9 @@
- <!DOCTYPE html>                                                                                                                                  
-  <html lang="fr">                                                                                                                                 
-  <head>                                                                                                                                           
-    <meta charset="UTF-8" />                                                                                                                       
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />                                                                       
-    <title>Jobboard FiDurable</title>
+<!DOCTYPE html>          
+  <html lang="fr">                                                                                           
+  <head>                                                                                                     
+    <meta charset="UTF-8" />                                                                                 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />                                 
+    <title>Jobboard FiDurable</title>                                                                        
     <style>
       :root {
         --green:      #1C443F;
@@ -19,22 +19,23 @@
         --transition: .25s ease;
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: Inter, system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 0 0 60px;
-  -webkit-font-smoothing: antialiased; }
+      body { font-family: Inter, system-ui, -apple-system, sans-serif; background: var(--bg); color:
+  var(--text); padding: 0 0 60px; -webkit-font-smoothing: antialiased; }
 
       /* ── Header jobboard ── */
       .fjb-header { margin-bottom: 28px; }
-      .fjb-header h1 { font-size: 1.6rem; font-weight: 800; color: var(--green); margin-bottom: 4px; letter-spacing: -.02em; }
+      .fjb-header h1 { font-size: 1.6rem; font-weight: 800; color: var(--green); margin-bottom: 4px;
+  letter-spacing: -.02em; }
       .fjb-header p { font-size: .9rem; color: var(--muted); }
 
       /* ── Skeleton ── */
       .fjb-skeleton-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
       @media (max-width: 1100px) { .fjb-skeleton-grid { grid-template-columns: repeat(2, 1fr); } }
       @media (max-width: 620px)  { .fjb-skeleton-grid { grid-template-columns: 1fr; } }
-      .fjb-skeleton-card { background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; height:
-  160px; }
-      .fjb-shimmer { width: 100%; height: 100%; background: linear-gradient(90deg, #e8eeec 25%, #f4f7f6 50%, #e8eeec 75%); background-size: 200%
-  100%; animation: shimmer 1.4s infinite; }
+      .fjb-skeleton-card { background: var(--white); border-radius: var(--radius); border: 1.5px solid
+  var(--border); overflow: hidden; height: 160px; }
+      .fjb-shimmer { width: 100%; height: 100%; background: linear-gradient(90deg, #e8eeec 25%, #f4f7f6 50%,
+  #e8eeec 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
       @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
       /* ── Toolbar sticky ── */
@@ -69,16 +70,19 @@
       }
       #fjb-search::placeholder { color: var(--muted); }
       #fjb-search:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(28,68,63,.1); }
-      .fjb-filter { appearance: none; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px 18px; font-size: .83rem; font-family:
-  inherit; font-weight: 500; color: var(--text); background: var(--white); cursor: pointer; transition: all var(--transition); outline: none; }
+      .fjb-filter { appearance: none; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px
+  18px; font-size: .83rem; font-family: inherit; font-weight: 500; color: var(--text); background:
+  var(--white); cursor: pointer; transition: all var(--transition); outline: none; }
       .fjb-filter:hover { border-color: var(--green); color: var(--green); }
       .fjb-filter.active { background: var(--green); border-color: var(--green); color: var(--white); }
-      #fjb-reset { background: transparent; border: 1.5px solid var(--border); border-radius: 999px; padding: 8px 16px; font-size: .83rem;
-  font-family: inherit; font-weight: 500; color: var(--muted); cursor: pointer; transition: all var(--transition); }
+      #fjb-reset { background: transparent; border: 1.5px solid var(--border); border-radius: 999px; padding:
+   8px 16px; font-size: .83rem; font-family: inherit; font-weight: 500; color: var(--muted); cursor: pointer;
+   transition: all var(--transition); }
       #fjb-reset:hover { border-color: var(--green); color: var(--green); }
-      #fjb-add-btn { height: 36px; padding: 0 20px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 600; font-family:
-  inherit; font-size: .83rem; display: inline-flex; align-items: center; text-decoration: none; border: none; cursor: pointer; transition:
-  transform .2s ease, box-shadow .2s ease; white-space: nowrap; }
+      #fjb-add-btn { height: 36px; padding: 0 20px; border-radius: 999px; background: var(--green); color:
+  #fff; font-weight: 600; font-family: inherit; font-size: .83rem; display: inline-flex; align-items: center;
+   text-decoration: none; border: none; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
+   white-space: nowrap; }
       #fjb-add-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(28,68,63,.25); }
 
       /* ── Grid ── */
@@ -87,110 +91,124 @@
       @media (max-width: 620px)  { #fjb-grid { grid-template-columns: 1fr; } }
 
       /* ── Card ── */
-      .fjb-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); border: 1.5px solid var(--border); overflow:
-  hidden; cursor: pointer; display: flex; flex-direction: column; opacity: 0; transform: translateY(20px); transition: transform .3s ease,
-  box-shadow .3s ease, opacity .3s ease, border-color .3s ease; }
+      .fjb-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); border:
+  1.5px solid var(--border); overflow: hidden; cursor: pointer; display: flex; flex-direction: column;
+  opacity: 0; transform: translateY(20px); transition: transform .3s ease, box-shadow .3s ease, opacity .3s
+  ease, border-color .3s ease; }
       .fjb-card.visible { opacity: 1; transform: translateY(0); }
-      .fjb-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-hover); border-color: rgba(28,68,63,.2); }
+      .fjb-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-hover);
+  border-color: rgba(28,68,63,.2); }
       .fjb-card:focus { outline: 2px solid var(--green); outline-offset: 2px; }
-      .fjb-card-top { padding: 20px 20px 16px; display: flex; align-items: flex-start; gap: 14px; position: relative; }
-      .fjb-avatar { width: 44px; height: 44px; min-width: 44px; border-radius: 12px; background: var(--green); color: var(--white); font-weight:
-  800; font-size: .95rem; display: flex; align-items: center; justify-content: center; letter-spacing: -.02em; overflow: hidden; }
+      .fjb-card-top { padding: 20px 20px 16px; display: flex; align-items: flex-start; gap: 14px; position:
+  relative; }
+      .fjb-avatar { width: 44px; height: 44px; min-width: 44px; border-radius: 12px; background:
+  var(--green); color: var(--white); font-weight: 800; font-size: .95rem; display: flex; align-items: center;
+   justify-content: center; letter-spacing: -.02em; overflow: hidden; }
       .fjb-card-info { flex: 1; min-width: 0; padding-right: 68px; }
-      .fjb-card-titre { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px; display: -webkit-box;
-  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-      .fjb-card-entreprise { font-size: .8rem; color: var(--muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow:
-  ellipsis; }
+      .fjb-card-titre { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.3;
+  margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow:
+  hidden; }
+      .fjb-card-entreprise { font-size: .8rem; color: var(--muted); font-weight: 500; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; }
       .fjb-card-divider { height: 1px; background: var(--border); margin: 0 20px; }
-      .fjb-card-footer { padding: 14px 20px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+      .fjb-card-footer { padding: 14px 20px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1;
+  }
       .fjb-card-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-      .fjb-card-date { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+      .fjb-card-date { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: 5px;
+  }
       .fjb-card-cta { margin-top: auto; display: flex; justify-content: flex-end; }
-      .fjb-card-cta span { font-size: .8rem; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 4px; transition: gap
-  var(--transition); }
+      .fjb-card-cta span { font-size: .8rem; font-weight: 700; color: var(--green); display: flex;
+  align-items: center; gap: 4px; transition: gap var(--transition); }
       .fjb-card:hover .fjb-card-cta span { gap: 8px; }
 
       /* ── Badge "Nouveau" ── */
-      .fjb-badge-new { position: absolute; top: 16px; right: 16px; background: #16a34a; color: white; font-size: .68rem; font-weight: 700; padding:
-   3px 9px; border-radius: 999px; letter-spacing: .04em; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
-      .fjb-badge-new::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 1.5s infinite; }
-      @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.7); } }
+      .fjb-badge-new { position: absolute; top: 16px; right: 16px; background: #16a34a; color: white;
+  font-size: .68rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; letter-spacing: .04em;
+  text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
+      .fjb-badge-new::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%;
+  animation: pulse 1.5s infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform:
+  scale(.7); } }
 
       /* ── Badges ── */
-      .fjb-badge { font-size: .72rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap:
-  4px; cursor: pointer; transition: opacity var(--transition), transform var(--transition); }
+      .fjb-badge { font-size: .72rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; display:
+  inline-flex; align-items: center; gap: 4px; cursor: pointer; transition: opacity var(--transition),
+  transform var(--transition); }
       .fjb-badge:hover { opacity: .8; transform: scale(.97); }
       .fjb-badge--stage      { background: rgba(28,68,63,.1);   color: #1C443F; }
       .fjb-badge--cdi        { background: rgba(26,58,107,.1);  color: #1a3a6b; }
       .fjb-badge--alternance { background: rgba(180,83,9,.1);   color: #b45309; }
       .fjb-badge--phd        { background: rgba(107,33,168,.1); color: #6b21a8; }
       .fjb-badge--autre      { background: rgba(55,65,81,.1);   color: #374151; }
-      .fjb-badge--secteur { background: rgba(28,68,63,.06); color: var(--green); border: 1px solid rgba(28,68,63,.15); }
+      .fjb-badge--secteur { background: rgba(28,68,63,.06); color: var(--green); border: 1px solid
+  rgba(28,68,63,.15); }
       .fjb-badge--lieu    { background: #F3F4F6; color: #4B5563; }
 
       /* ── Empty state ── */
       .fjb-empty { grid-column: 1/-1; text-align: center; padding: 80px 0; }
       .fjb-empty p { color: var(--muted); margin-bottom: 16px; font-size: .95rem; }
-      .fjb-empty button { background: var(--green); color: white; border: none; border-radius: 999px; padding: 10px 24px; font-size: .85rem;
-  font-weight: 700; font-family: inherit; cursor: pointer; transition: background var(--transition); }
+      .fjb-empty button { background: var(--green); color: white; border: none; border-radius: 999px;
+  padding: 10px 24px; font-size: .85rem; font-weight: 700; font-family: inherit; cursor: pointer; transition:
+   background var(--transition); }
       .fjb-empty button:hover { background: var(--green-dark); }
 
       /* ── Backdrop ── */
-      #fjb-backdrop { position: fixed; inset: 0; background: rgba(11,18,32,.4); backdrop-filter: blur(4px); z-index: 9998; opacity: 0;
-  pointer-events: none; transition: opacity var(--transition); }
+      #fjb-backdrop { position: fixed; inset: 0; background: rgba(11,18,32,.4); backdrop-filter: blur(4px);
+  z-index: 9998; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
       #fjb-backdrop.is-open { opacity: 1; pointer-events: all; }
 
       /* ── Panel ── */
-      #fjb-panel { position: fixed; top: 0; right: 0; height: 100vh; width: 500px; max-width: 100vw; background: var(--white); z-index: 9999;
-  transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -12px 0 60px rgba(11,18,32,.15); overflow-y: auto;
-  display: flex; flex-direction: column; }
+      #fjb-panel { position: fixed; top: 0; right: 0; height: 100vh; width: 500px; max-width: 100vw;
+  background: var(--white); z-index: 9999; transform: translateX(100%); transition: transform .35s
+  cubic-bezier(.4,0,.2,1); box-shadow: -12px 0 60px rgba(11,18,32,.15); overflow-y: auto; display: flex;
+  flex-direction: column; }
       #fjb-panel.is-open { transform: translateX(0); }
       @media (max-width: 540px) { #fjb-panel { width: 100vw; } }
-      #fjb-panel-close { position: sticky; top: 0; z-index: 1; align-self: flex-end; margin: 20px 20px 0 0; background: rgba(11,18,32,.06); border:
-   none; border-radius: 50%; width: 36px; height: 36px; font-size: 1rem; cursor: pointer; color: var(--muted); display: flex; align-items: center;
-  justify-content: center; transition: background var(--transition), color var(--transition); }
+      #fjb-panel-close { position: sticky; top: 0; z-index: 1; align-self: flex-end; margin: 20px 20px 0 0;
+  background: rgba(11,18,32,.06); border: none; border-radius: 50%; width: 36px; height: 36px; font-size:
+  1rem; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition), color var(--transition); }
       #fjb-panel-close:hover { background: rgba(11,18,32,.12); color: var(--text); }
       #fjb-panel-content { padding: 0 32px 56px; flex: 1; }
-      .fjb-panel-header { background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); margin: -56px -32px 0; padding: 32px 32px
-  28px; }
-      .fjb-panel-avatar { width: 52px; height: 52px; border-radius: 14px; background: rgba(255,255,255,.18); color: var(--white); font-weight: 800;
-   font-size: 1.1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; overflow: hidden; }
-      .fjb-panel-titre { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 6px; line-height: 1.3; letter-spacing: -.02em; }
+      .fjb-panel-header { background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  margin: -56px -32px 0; padding: 32px 32px 28px; }
+      .fjb-panel-avatar { width: 52px; height: 52px; border-radius: 14px; background: rgba(255,255,255,.18);
+  color: var(--white); font-weight: 800; font-size: 1.1rem; display: flex; align-items: center;
+  justify-content: center; margin-bottom: 16px; overflow: hidden; }
+      .fjb-panel-titre { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 6px;
+  line-height: 1.3; letter-spacing: -.02em; }
       .fjb-panel-entreprise { font-size: .9rem; color: rgba(255,255,255,.75); font-weight: 500; }
       .fjb-panel-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-      .fjb-panel-meta { margin-top: 24px; background: #F8FAF9; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap:
-  12px; }
+      .fjb-panel-meta { margin-top: 24px; background: #F8FAF9; border-radius: 12px; padding: 16px; display:
+  flex; flex-direction: column; gap: 12px; }
       .fjb-panel-meta-item { display: flex; gap: 12px; font-size: .875rem; }
-      .fjb-panel-meta-label { font-weight: 600; min-width: 110px; color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing:
-   .04em; }
+      .fjb-panel-meta-label { font-weight: 600; min-width: 110px; color: var(--muted); font-size: .8rem;
+  text-transform: uppercase; letter-spacing: .04em; }
       .fjb-panel-description { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 24px; }
-      .fjb-panel-description h4 { font-size: .8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em;
-  margin-bottom: 12px; }
-      .fjb-panel-description p { font-size: .9rem; line-height: 1.75; white-space: pre-wrap; color: var(--text); }
-      .fjb-panel-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 32px; background: var(--green); color: var(--white);
-  text-decoration: none; padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: .95rem; transition: background var(--transition),
-  transform var(--transition), box-shadow var(--transition); box-shadow: 0 4px 16px rgba(28,68,63,.3); }
-      .fjb-panel-cta:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(28,68,63,.35); }
+      .fjb-panel-description h4 { font-size: .8rem; font-weight: 700; color: var(--muted); text-transform:
+  uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+      .fjb-panel-description p { font-size: .9rem; line-height: 1.75; white-space: pre-wrap; color:
+  var(--text); }
+      .fjb-panel-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 32px; background:
+  var(--green); color: var(--white); text-decoration: none; padding: 14px 28px; border-radius: 999px;
+  font-weight: 700; font-size: .95rem; transition: background var(--transition), transform var(--transition),
+   box-shadow var(--transition); box-shadow: 0 4px 16px rgba(28,68,63,.3); }
+      .fjb-panel-cta:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px
+  24px rgba(28,68,63,.35); }
 
       /* ── Modal offre ── */
       #fjb-modal { position: fixed; inset: 0; z-index: 99999; display: none; }
       #fjb-modal.is-open { display: block; }
       .fjb-modal-overlay { position: absolute; inset: 0; background: rgba(11,18,32,.55); }
-      .fjb-modal-panel {
-        position: relative;
-        width: min(620px, calc(100% - 24px));
-        margin: 5vh auto;
-        border-radius: 24px;
-        background: var(--white);
-        border: 1px solid var(--border);
-        box-shadow: 0 26px 90px rgba(11,18,32,.25);
-        overflow: hidden;
-      }
-      .fjb-modal-head { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content:
-  space-between; }
+      .fjb-modal-panel { position: relative; width: min(620px, calc(100% - 24px)); margin: 5vh auto;
+  border-radius: 24px; background: var(--white); border: 1px solid var(--border); box-shadow: 0 26px 90px
+  rgba(11,18,32,.25); overflow: hidden; }
+      .fjb-modal-head { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex;
+  align-items: center; justify-content: space-between; }
       .fjb-modal-head h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); margin: 0; }
-      .fjb-modal-close { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); cursor: pointer;
-   font-size: 1rem; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: background var(--transition); }
+      .fjb-modal-close { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--white); cursor: pointer; font-size: 1rem; color: var(--muted); display: flex;
+  align-items: center; justify-content: center; transition: background var(--transition); }
       .fjb-modal-close:hover { background: var(--bg); color: var(--text); }
       .fjb-modal-body { padding: 24px; max-height: calc(90vh - 80px); overflow-y: auto; }
       .fjb-modal-sub { font-size: .85rem; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
@@ -200,121 +218,30 @@
       .fjb-form-field { display: flex; flex-direction: column; gap: 6px; }
       .fjb-form-label { font-size: .78rem; font-weight: 700; color: var(--text); letter-spacing: .02em; }
       .fjb-form-label span { color: var(--green); }
-      .fjb-form-input, .fjb-form-select, .fjb-form-textarea {
-        border: 1.5px solid var(--border);
-        border-radius: 12px;
-        padding: 10px 14px;
-        font-size: .85rem;
-        font-family: inherit;
-        color: var(--text);
-        background: var(--white);
-        outline: none;
-        transition: border-color var(--transition), box-shadow var(--transition);
-        width: 100%;
-      }
-      .fjb-form-input:focus, .fjb-form-select:focus, .fjb-form-textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px
-  rgba(28,68,63,.1); }
+      .fjb-form-input, .fjb-form-select, .fjb-form-textarea { border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 10px 14px; font-size: .85rem; font-family: inherit; color: var(--text);
+  background: var(--white); outline: none; transition: border-color var(--transition), box-shadow
+  var(--transition); width: 100%; }
+      .fjb-form-input:focus, .fjb-form-select:focus, .fjb-form-textarea:focus { border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(28,68,63,.1); }
       .fjb-form-select { appearance: none; }
       .fjb-form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
       .fjb-form-actions { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
-      .fjb-form-submit { background: var(--green); color: var(--white); border: none; border-radius: 999px; padding: 12px 28px; font-size: .9rem;
-  font-weight: 700; font-family: inherit; cursor: pointer; transition: background var(--transition), transform var(--transition); }
+      .fjb-form-submit { background: var(--green); color: var(--white); border: none; border-radius: 999px;
+  padding: 12px 28px; font-size: .9rem; font-weight: 700; font-family: inherit; cursor: pointer; transition:
+  background var(--transition), transform var(--transition); }
       .fjb-form-submit:hover { background: var(--green-dark); transform: translateY(-1px); }
       .fjb-form-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
       .fjb-form-hint { font-size: .8rem; color: var(--muted); }
-      .fjb-toast { margin-top: 12px; padding: 10px 14px; border-radius: 12px; font-size: .83rem; display: none; }
-      .fjb-toast.success { background: rgba(22,163,74,.1); color: #15803d; border: 1px solid rgba(22,163,74,.2); display: block; }
-      .fjb-toast.error   { background: rgba(220,38,38,.1);  color: #b91c1c;  border: 1px solid rgba(220,38,38,.2);  display: block; }
-
-      /* ── Header FiDurable ── */
-      .fid-header, .fid-header * { box-sizing: border-box; }
-      .fid-header { width: 100%; background: #ffffff; padding-top: 0; }
-      .fid-header__inner { width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 22px 32px; --buffer: clamp(28px, 4.5vw,
-  110px); display: grid; grid-template-columns: auto var(--buffer) 1fr var(--buffer) auto; align-items: center; }
-      .fid-header__logo { grid-column: 1; justify-self: start; display: flex; align-items: center; text-decoration: none; white-space: nowrap;
-  min-width: 210px; }
-      .fid-header__logo img { height: 50px; width: auto; display: block; object-fit: contain; }
-      .fid-menu { grid-column: 3; justify-self: center; display: flex; align-items: center; gap: 56px; font-family: Inter, system-ui,
-  -apple-system, sans-serif; white-space: nowrap; }
-      .fid-menu-item { position: relative; }
-      .fid-menu-link { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 14px 16px; font-size: 17px; font-weight:
-  500; color: #0f2f2a; text-decoration: none; transition: color .2s ease; }
-      .fid-arrow { font-size: 11px; opacity: .55; transform: translateY(1px); }
-      .fid-underline { position: absolute; left: 16px; right: 16px; bottom: 4px; height: 2px; background: linear-gradient(90deg, #1C443F, #2fae8c);
-   opacity: 0; transform: scaleX(0); transform-origin: left; transition: transform .25s ease, opacity .25s ease; }
-      .fid-menu-item:hover .fid-underline { opacity: 1; transform: scaleX(1); }
-      .fid-menu a, .fid-menu a:visited { color: #0f2f2a; }
-      .fid-menu-link:hover, .fid-menu-link:focus-visible, .fid-menu-link:active { color: #1C443F; outline: none; }
-      .fid-dropdown { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(14px); min-width: 340px; background: #fff;
-  border-radius: 16px; padding: 12px; box-shadow: 0 22px 55px rgba(0,0,0,.08); opacity: 0; visibility: hidden; pointer-events: none; transition:
-  opacity .25s ease, transform .25s ease; z-index: 9999; }
-      .fid-menu-item.has-sub:hover .fid-dropdown { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%)
-  translateY(0); }
-      .fid-dropdown a { display: block; padding: 12px 16px; border-radius: 12px; font-size: 15px; font-weight: 500; color: #0f2f2a;
-  text-decoration: none; }
-      .fid-dropdown a:hover { background: #f2f6f5; color: #1C443F; }
-      .fid-header__actions { grid-column: 5; justify-self: end; display: flex; align-items: center; gap: 22px; white-space: nowrap; }
-      .fidurable-account { width: 46px; height: 46px; border-radius: 999px; display: flex; align-items: center; justify-content: center; border:
-  1px solid rgba(0,0,0,.12); text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
-      .fidurable-account:hover { transform: translateY(-1px); background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.2); }
-      .fidurable-account svg { stroke: rgba(0,0,0,.55); }
-      .fidurable-cta { height: 46px; padding: 0 30px; border-radius: 999px; background: #1C443F; color: #fff !important; font-weight: 600;
-  font-family: Inter, system-ui, -apple-system, sans-serif; display: inline-flex; align-items: center; justify-content: center; text-decoration:
-  none; transition: transform .2s ease, box-shadow .2s ease; }
-      .fidurable-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(28,68,63,.25); }
-      @media (max-width: 1100px) {
-        .fid-header__inner { padding: 16px 20px; --buffer: 24px; }
-        .fid-menu { gap: 36px; }
-        .fid-menu-link { font-size: 16px; padding: 12px 14px; }
-        .fid-header__logo { min-width: 160px; }
-        .fid-header__logo img { height: 54px; }
-        .fidurable-account { width: 44px; height: 44px; }
-        .fidurable-cta { height: 44px; padding: 0 26px; }
-      }
+      .fjb-toast { margin-top: 12px; padding: 10px 14px; border-radius: 12px; font-size: .83rem; display:
+  none; }
+      .fjb-toast.success { background: rgba(22,163,74,.1); color: #15803d; border: 1px solid
+  rgba(22,163,74,.2); display: block; }
+      .fjb-toast.error   { background: rgba(220,38,38,.1);  color: #b91c1c;  border: 1px solid
+  rgba(220,38,38,.2);  display: block; }
     </style>
   </head>
   <body>
-
-    <header class="fid-header">
-      <div class="fid-header__inner">
-        <a class="fid-header__logo" href="/" aria-label="Accueil">
-          <img src="http://wfwsfzm.cluster100.hosting.ovh.net/wp-content/uploads/2025/12/Logo_Standard-2-e1766785882749.png" alt="FiDurable">
-        </a>
-        <nav class="fid-menu" aria-label="Navigation principale">
-          <div class="fid-menu-item has-sub">
-            <a href="#" class="fid-menu-link">Le réseau <span class="fid-arrow">▾</span><span class="fid-underline"></span></a>
-            <div class="fid-dropdown">
-              <a href="/en-bref">En bref</a>
-              <a href="/marraines-parrains">Marraines & Parrains</a>
-              <a href="/notre-equipe">Notre équipe</a>
-            </div>
-          </div>
-          <div class="fid-menu-item has-sub">
-            <a href="#" class="fid-menu-link">Partenaires <span class="fid-arrow">▾</span><span class="fid-underline"></span></a>
-            <div class="fid-dropdown"><a href="/nos-sponsors">Nos sponsors</a></div>
-          </div>
-          <div class="fid-menu-item has-sub">
-            <a href="#" class="fid-menu-link">Initiatives <span class="fid-arrow">▾</span><span class="fid-underline"></span></a>
-            <div class="fid-dropdown">
-              <a href="/mentorat">Mentorat</a>
-              <a href="/podcasts">Podcasts</a>
-            </div>
-          </div>
-          <div class="fid-menu-item">
-            <a href="/events" class="fid-menu-link">Events <span class="fid-underline"></span></a>
-          </div>
-        </nav>
-        <div class="fid-header__actions">
-          <a href="/connexion" class="fidurable-account" aria-label="Connexion membre">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="8" r="4" stroke-width="2"/>
-              <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke-width="2"/>
-            </svg>
-          </a>
-          <a class="fidurable-cta" href="/rejoindre">Candidater</a>
-        </div>
-      </div>
-    </header>
 
     <div style="padding: 40px 28px 0;">
 
@@ -340,7 +267,8 @@
         </div>
         <div class="fjb-toolbar-row">
           <div class="fjb-toolbar-left">
-            <select class="fjb-filter" id="filter-secteur"><option value="">Tous les secteurs</option></select>
+            <select class="fjb-filter" id="filter-secteur"><option value="">Tous les
+  secteurs</option></select>
             <select class="fjb-filter" id="filter-contrat"><option value="">Contrat</option></select>
             <select class="fjb-filter" id="filter-lieu"><option value="">Tous les lieux</option></select>
             <button id="fjb-reset">Réinitialiser</button>
@@ -368,17 +296,19 @@
           <button class="fjb-modal-close" id="fjb-modal-close" aria-label="Fermer">✕</button>
         </div>
         <div class="fjb-modal-body">
-          <p class="fjb-modal-sub">Votre offre sera examinée avant d'apparaître sur le jobboard. Seuls les champs marqués <span 
-  style="color:var(--green)">*</span> sont obligatoires.</p>
+          <p class="fjb-modal-sub">Votre offre sera examinée avant d'apparaître sur le jobboard. Seuls les
+  champs marqués <span style="color:var(--green)">*</span> sont obligatoires.</p>
           <form class="fjb-form" id="fjb-form" novalidate>
             <div class="fjb-form-row">
               <div class="fjb-form-field">
                 <label class="fjb-form-label" for="f-titre">Intitulé du poste <span>*</span></label>
-                <input class="fjb-form-input" id="f-titre" name="titre" type="text" required placeholder="Ex : Analyste ESG">
+                <input class="fjb-form-input" id="f-titre" name="titre" type="text" required placeholder="Ex
+  : Analyste ESG">
               </div>
               <div class="fjb-form-field">
                 <label class="fjb-form-label" for="f-entreprise">Entreprise <span>*</span></label>
-                <input class="fjb-form-input" id="f-entreprise" name="entreprise" type="text" required placeholder="Ex : BNP Paribas">
+                <input class="fjb-form-input" id="f-entreprise" name="entreprise" type="text" required 
+  placeholder="Ex : BNP Paribas">
               </div>
             </div>
             <div class="fjb-form-row">
@@ -431,11 +361,13 @@
             </div>
             <div class="fjb-form-field">
               <label class="fjb-form-label" for="f-lien">URL de l'offre <span>*</span></label>
-              <input class="fjb-form-input" id="f-lien" name="lien" type="url" required placeholder="https://...">
+              <input class="fjb-form-input" id="f-lien" name="lien" type="url" required 
+  placeholder="https://...">
             </div>
             <div class="fjb-form-field">
               <label class="fjb-form-label" for="f-description">Description</label>
-              <textarea class="fjb-form-textarea" id="f-description" name="description" placeholder="Résumé du poste (optionnel)"></textarea>
+              <textarea class="fjb-form-textarea" id="f-description" name="description" placeholder="Résumé
+  du poste (optionnel)"></textarea>
             </div>
             <div id="fjb-form-toast" class="fjb-toast"></div>
             <div class="fjb-form-actions">
@@ -472,7 +404,6 @@
       const formToast  = document.getElementById('fjb-form-toast');
       let allJobs = [];
 
-      // ── Chargement ────────────────────────────────────────────────────
       async function loadJobs() {
         try {
           const res = await fetch(API_URL);
@@ -483,15 +414,17 @@
           skeleton.style.display = 'none';
           toolbar.style.display = 'flex';
         } catch {
-          skeleton.innerHTML = '<p style="text-align:center;color:var(--muted);padding:60px 0">Impossible de charger les offres.</p>';
+          skeleton.innerHTML = '<p style="text-align:center;color:var(--muted);padding:60px 0">Impossible de
+  charger les offres.</p>';
         }
       }
 
-      // ── Filtres ───────────────────────────────────────────────────────
       function buildFilters(jobs) {
         const unique = k => [...new Set(jobs.map(j => j[k]).filter(Boolean))];
-        unique('secteur').forEach(v => selSecteur.innerHTML += `<option value="${esc(v)}">${esc(v)}</option>`);
-        unique('contrat').forEach(v => selContrat.innerHTML += `<option value="${esc(v)}">${esc(v)}</option>`);
+        unique('secteur').forEach(v => selSecteur.innerHTML += `<option
+  value="${esc(v)}">${esc(v)}</option>`);
+        unique('contrat').forEach(v => selContrat.innerHTML += `<option
+  value="${esc(v)}">${esc(v)}</option>`);
         unique('lieu').forEach(v => selLieu.innerHTML += `<option value="${esc(v)}">${esc(v)}</option>`);
       }
 
@@ -520,18 +453,17 @@
         renderCards(allJobs);
       });
 
-      // ── Badge "Nouveau" ───────────────────────────────────────────────
       function isNouveau(isoDate) {
         if (!isoDate) return false;
         const diff = (Date.now() - new Date(isoDate)) / (1000 * 60 * 60 * 24);
         return diff >= 0 && diff <= 7;
       }
 
-      // ── Rendu cards ───────────────────────────────────────────────────
       function renderCards(jobs) {
         grid.innerHTML = '';
         const n = jobs.length;
-        countEl.textContent = `${n} offre${n > 1 ? 's' : ''} sélectionné${n > 1 ? 'es' : 'e'} et proposée${n > 1 ? 's' : ''} par le réseau`;
+        countEl.textContent = `${n} offre${n > 1 ? 's' : ''} sélectionné${n > 1 ? 'es' : 'e'} et proposée${n
+  > 1 ? 's' : ''} par le réseau`;
 
         if (!jobs.length) {
           grid.innerHTML = `<div class="fjb-empty">
@@ -559,7 +491,8 @@
               <div class="fjb-card-info">
                 <div class="fjb-card-titre">${esc(job.titre)}</div>
                 <div class="fjb-card-entreprise">${esc(job.entreprise)}</div>
-                ${job.date_creation ? `<div style="font-size:.72rem;color:#9ca3af;margin-top:2px;">${timeAgo(job.date_creation)}</div>` : ''}
+                ${job.date_creation ? `<div
+  style="font-size:.72rem;color:#9ca3af;margin-top:2px;">${timeAgo(job.date_creation)}</div>` : ''}
               </div>
               ${nouveau ? '<span class="fjb-badge-new">Nouveau</span>' : ''}
             </div>
@@ -597,7 +530,6 @@
         });
       }
 
-      // ── Panel ─────────────────────────────────────────────────────────
       function openPanel(job) {
         const initiales = getInitiales(job.entreprise);
         const contratCls = getContratCls(job.contrat);
@@ -607,12 +539,13 @@
         if (job.lieu)       meta += metaRow('Lieu', '📍 ' + esc(job.lieu));
         if (job.secteur2)   meta += metaRow('Secteur 2', esc(job.secteur2));
         if (job.source)     meta += metaRow('Source', `<span style="display:inline-block;padding:2px
-  10px;border-radius:999px;font-size:.75rem;font-weight:700;background:${sourceColor(job.source)};color:#fff;">${esc(job.source)}</span>`);
+  10px;border-radius:999px;font-size:.75rem;font-weight:700;background:${sourceColor(job.source)};color:#fff;
+  ">${esc(job.source)}</span>`);
 
         content.innerHTML = `
           <div class="fjb-panel-header">
-            <div class="fjb-panel-avatar">${job.logo ? `<img src="${esc(job.logo)}" alt="${esc(job.entreprise)}"
-  style="width:100%;height:100%;object-fit:cover;">` : esc(initiales)}</div>
+            <div class="fjb-panel-avatar">${job.logo ? `<img src="${esc(job.logo)}"
+  alt="${esc(job.entreprise)}" style="width:100%;height:100%;object-fit:cover;">` : esc(initiales)}</div>
             <div class="fjb-panel-titre">${esc(job.titre)}</div>
             <div class="fjb-panel-entreprise">${esc(job.entreprise)}</div>
           </div>
@@ -622,8 +555,10 @@
             ${job.lieu    ? `<span class="fjb-badge fjb-badge--lieu">📍 ${esc(job.lieu)}</span>` : ''}
           </div>
           ${meta ? `<div class="fjb-panel-meta">${meta}</div>` : ''}
-          ${job.description ? `<div class="fjb-panel-description"><h4>Description du poste</h4><p>${esc(job.description)}</p></div>` : ''}
-          ${job.lien ? `<a href="${esc(job.lien)}" target="_blank" rel="noopener noreferrer" class="fjb-panel-cta">Postuler →</a>` : ''}`;
+          ${job.description ? `<div class="fjb-panel-description"><h4>Description du
+  poste</h4><p>${esc(job.description)}</p></div>` : ''}
+          ${job.lien ? `<a href="${esc(job.lien)}" target="_blank" rel="noopener noreferrer"
+  class="fjb-panel-cta">Postuler →</a>` : ''}`;
 
         panel.classList.add('is-open');
         backdrop.classList.add('is-open');
@@ -632,7 +567,8 @@
       }
 
       function metaRow(label, value) {
-        return `<div class="fjb-panel-meta-item"><span class="fjb-panel-meta-label">${label}</span><span>${value}</span></div>`;
+        return `<div class="fjb-panel-meta-item"><span
+  class="fjb-panel-meta-label">${label}</span><span>${value}</span></div>`;
       }
 
       function closePanel() {
@@ -645,7 +581,6 @@
       backdrop.addEventListener('click', closePanel);
       document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
 
-      // ── Modal ─────────────────────────────────────────────────────────
       function openModal() {
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
@@ -663,9 +598,9 @@
       addBtn.addEventListener('click', openModal);
       modalClose.addEventListener('click', closeModal);
       modalOverlay.addEventListener('click', closeModal);
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' &&
+  modal.classList.contains('is-open')) closeModal(); });
 
-      // ── Soumission formulaire ─────────────────────────────────────────
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const fd = new FormData(form);
@@ -676,7 +611,8 @@
 
         if (!titre || !entreprise || !lien) {
           formToast.className = 'fjb-toast error';
-          formToast.textContent = 'Merci de renseigner au minimum le titre, l\'entreprise et l\'URL de l\'offre.';
+          formToast.textContent = 'Merci de renseigner au minimum le titre, l\'entreprise et l\'URL de
+  l\'offre.';
           return;
         }
 
@@ -718,7 +654,6 @@
         }
       });
 
-      // ── Helpers ───────────────────────────────────────────────────────
       function getInitiales(nom) {
         if (!nom) return '?';
         const m = nom.trim().split(/\s+/);
