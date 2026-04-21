@@ -1,109 +1,118 @@
 import { Client } from '@notionhq/client';
 
-  const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
-  export default async function handler(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
-    const databaseId = process.env.NOTION_DATABASE_ID;
-    if (!databaseId) return res.status(500).json({ error: 'NOTION_DATABASE_ID non configuré' });
+  const databaseId = process.env.NOTION_DATABASE_ID;
+  if (!databaseId) return res.status(500).json({ error: 'NOTION_DATABASE_ID non configuré' });
 
-    // ── GET : liste des offres publiées ──────────────────────────────
-    if (req.method === 'GET') {
-      try {
-        const response = await notion.databases.query({
-          database_id: databaseId,
-          filter: {
-            property: 'État',
-            status: { equals: 'Ouverte' },
-          },
-          sorts: [
-            { property: 'Date de début', direction: 'ascending' },
-            { timestamp: 'created_time', direction: 'descending' },
-          ],
-        });
+  // ── GET : liste des offres publiées ──────────────────────────────
+  if (req.method === 'GET') {
+    try {
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        filter: {
+          property: 'État',
+          status: { equals: 'Ouverte' },
+        },
+        sorts: [
+          { property: 'Date de début', direction: 'ascending' },
+          { timestamp: 'created_time', direction: 'descending' },
+        ],
+      });
 
-        const jobs = response.results.map((page) => {
-          const p = page.properties;
-          return {
-            id: page.id,
-            date_creation: page.created_time,
-            titre:       getText(p, 'Intitulé du poste', 'title'),
-            entreprise:  getText(p, 'Entreprise', 'rich_text'),
-            secteur:     getSelect(p, "Secteur d'activité"),
-            contrat:     getSelect(p, 'Type de contrat'),
-            date_debut:  getDate(p, 'Date de début'),
-            lieu:        getText(p, 'Lieu', 'rich_text'),
-            niveau:      getSelect(p, "Niveau d'expérience"),
-            description: getText(p, 'Descriptif du poste', 'rich_text'),
-            lien:        getUrl(p, "URL de l'offre"),
-            source:      getSelect(p, 'Source'),
-            logo:        getUrl(p, 'URL Logo'),
-          };
-        });
-
-        return res.status(200).json(jobs);
-      } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Erreur lors de la récupération des offres' });
-      }
-    }
-
-    // ── POST : soumettre une nouvelle offre ──────────────────────────
-    if (req.method === 'POST') {
-      try {
-        const { titre, entreprise, secteur, contrat, date_debut, lieu, niveau, description, lien } = req.body;
-
-        if (!titre || !entreprise) {
-          return res.status(400).json({ error: 'Titre et entreprise sont obligatoires' });
-        }
-
-        const properties = {
-          'Intitulé du poste': { title: [{ text: { content: titre } }] },
-          'État': { status: { name: 'En attente' } },
+      const jobs = response.results.map((page) => {
+        const p = page.properties;
+        return {
+          id: page.id,
+          date_creation: page.created_time,
+          titre:       getText(p, 'Intitulé du poste', 'title'),
+          entreprise:  getText(p, 'Entreprise', 'rich_text'),
+          secteur:     getSelect(p, "Secteur d'activité"),
+          contrat:     getSelect(p, 'Type de contrat'),
+          date_debut:  getDate(p, 'Date de début'),
+          lieu:        getText(p, 'Lieu', 'rich_text'),
+          niveau:      getSelect(p, "Niveau d'expérience"),
+          description: getText(p, 'Descriptif du poste', 'rich_text'),
+          lien:        getUrl(p, "URL de l'offre"),
+          source:      getSelect(p, 'Source'),
+          logo:        getFileUrl(p, 'URL Logo'), // Utilise maintenant la nouvelle fonction pour les fichiers
         };
+      });
 
-        if (entreprise)   properties['Entreprise']          = { rich_text: [{ text: { content: entreprise } }] };
-        if (secteur)      properties["Secteur d'activité"]  = { select: { name: secteur } };
-        if (contrat)      properties['Type de contrat']     = { select: { name: contrat } };
-        if (lieu)         properties['Lieu']                = { rich_text: [{ text: { content: lieu } }] };
-        if (niveau)       properties["Niveau d'expérience"] = { select: { name: niveau } };
-        if (description)  properties['Descriptif du poste'] = { rich_text: [{ text: { content: description } }] };
-        if (lien)         properties["URL de l'offre"]      = { url: lien };
-        if (date_debut)   properties['Date de début']       = { date: { start: date_debut } };
-
-        await notion.pages.create({ parent: { database_id: databaseId }, properties });
-
-        return res.status(200).json({ ok: true });
-      } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: "Erreur lors de l'ajout de l'offre" });
-      }
+      return res.status(200).json(jobs);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erreur lors de la récupération des offres' });
     }
-
-    return res.status(405).json({ error: 'Méthode non autorisée' });
   }
 
-  function getText(props, key, type) {
-    const items = props[key]?.[type] ?? [];
-    return items.map((t) => t.plain_text).join('');
+  // ── POST : soumettre une nouvelle offre ──────────────────────────
+  if (req.method === 'POST') {
+    try {
+      const { titre, entreprise, secteur, contrat, date_debut, lieu, niveau, description, lien } = req.body;
+
+      if (!titre || !entreprise) {
+        return res.status(400).json({ error: 'Titre et entreprise sont obligatoires' });
+      }
+
+      const properties = {
+        'Intitulé du poste': { title: [{ text: { content: titre } }] },
+        'État': { status: { name: 'En attente' } },
+      };
+
+      if (entreprise)   properties['Entreprise']           = { rich_text: [{ text: { content: entreprise } }] };
+      if (secteur)      properties["Secteur d'activité"]  = { select: { name: secteur } };
+      if (contrat)      properties['Type de contrat']      = { select: { name: contrat } };
+      if (lieu)         properties['Lieu']                 = { rich_text: [{ text: { content: lieu } }] };
+      if (niveau)       properties["Niveau d'expérience"] = { select: { name: niveau } };
+      if (description)  properties['Descriptif du poste'] = { rich_text: [{ text: { content: description } }] };
+      if (lien)         properties["URL de l'offre"]      = { url: lien };
+      if (date_debut)   properties['Date de début']       = { date: { start: date_debut } };
+
+      await notion.pages.create({ parent: { database_id: databaseId }, properties });
+
+      return res.status(200).json({ ok: true });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erreur lors de l'ajout de l'offre" });
+    }
   }
 
-  function getSelect(props, key) {
-    return props[key]?.select?.name ?? '';
-  }
+  return res.status(405).json({ error: 'Méthode non autorisée' });
+}
 
-  function getDate(props, key) {
-    const start = props[key]?.date?.start;
-    if (!start) return '';
-    const d = new Date(start);
-    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  }
+function getText(props, key, type) {
+  const items = props[key]?.[type] ?? [];
+  return items.map((t) => t.plain_text).join('');
+}
 
-  function getUrl(props, key) {
-    return props[key]?.url ?? '';
-  }
+function getSelect(props, key) {
+  return props[key]?.select?.name ?? '';
+}
+
+function getDate(props, key) {
+  const start = props[key]?.date?.start;
+  if (!start) return '';
+  const d = new Date(start);
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function getUrl(props, key) {
+  return props[key]?.url ?? '';
+}
+
+// Fonction spécifique pour extraire l'URL d'un fichier uploadé dans Notion
+function getFileUrl(props, key) {
+  const filesArray = props[key]?.files ?? [];
+  if (filesArray.length === 0) return '';
+  const fileObj = filesArray[0];
+  // Notion peut renvoyer soit un fichier hébergé (file.url) soit un lien externe (external.url)
+  return fileObj.file?.url || fileObj.external?.url || '';
+}
