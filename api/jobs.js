@@ -42,7 +42,6 @@ export default async function handler(req, res) {
           description: getText(p, 'Descriptif du poste', 'rich_text'),
           lien:        getUrl(p, "URL de l'offre"),
           source:      getSelect(p, 'Source'),
-          // C'est ici que la magie opère pour récupérer le logo via l'agrégation
           logo:        getFileUrl(p, 'URL Logo'), 
         };
       });
@@ -89,7 +88,7 @@ export default async function handler(req, res) {
   return res.status(405).json({ error: 'Méthode non autorisée' });
 }
 
-// Fonctions Helper
+// ── Fonctions Helpers ──────────────────────────────────────────────
 function getText(props, key, type) {
   const items = props[key]?.[type] ?? [];
   return items.map((t) => t.plain_text).join('');
@@ -110,23 +109,18 @@ function getUrl(props, key) {
   return props[key]?.url ?? '';
 }
 
-/**
- * Fonction robuste pour récupérer l'URL d'un fichier.
- * Gère les colonnes "Fichiers" classiques ET les "Agrégations" (Rollup).
- */
 function getFileUrl(props, key) {
   const prop = props[key];
   if (!prop) return '';
 
   let filesArray = [];
 
-  // Cas 1 : La colonne est directement un champ "Fichiers et médias"
+  // Cas 1 : Fichier en direct
   if (prop.type === 'files') {
     filesArray = prop.files;
   } 
-  // Cas 2 : La colonne est une "Agrégation" (Rollup)
+  // Cas 2 : Fichier via Agrégation (Rollup)
   else if (prop.type === 'rollup' && prop.rollup.type === 'array') {
-    // On cherche dans le tableau de l'agrégation le premier élément qui contient des fichiers
     const itemWithFiles = prop.rollup.array.find(item => item.type === 'files');
     if (itemWithFiles) {
       filesArray = itemWithFiles.files;
@@ -136,6 +130,5 @@ function getFileUrl(props, key) {
   if (!filesArray || filesArray.length === 0) return '';
   
   const fileObj = filesArray[0];
-  // Renvoie l'URL Amazon (file) ou l'URL externe (external)
   return fileObj.file?.url || fileObj.external?.url || '';
 }
