@@ -67,10 +67,10 @@ export default async function handler(req, res) {
         'État': { status: { name: 'En attente' } },
       };
 
-      if (entreprise)   properties['Entreprise']           = { rich_text: [{ text: { content: entreprise } }] };
+      if (entreprise)   properties['Entreprise']          = { rich_text: [{ text: { content: entreprise } }] };
       if (secteur)      properties["Secteur d'activité"]  = { select: { name: secteur } };
-      if (contrat)      properties['Type de contrat']      = { select: { name: contrat } };
-      if (lieu)         properties['Lieu']                 = { rich_text: [{ text: { content: lieu } }] };
+      if (contrat)      properties['Type de contrat']     = { select: { name: contrat } };
+      if (lieu)         properties['Lieu']                = { rich_text: [{ text: { content: lieu } }] };
       if (niveau)       properties["Niveau d'expérience"] = { select: { name: niveau } };
       if (description)  properties['Descriptif du poste'] = { rich_text: [{ text: { content: description } }] };
       if (lien)         properties["URL de l'offre"]      = { url: lien };
@@ -109,26 +109,43 @@ function getUrl(props, key) {
   return props[key]?.url ?? '';
 }
 
-function getFileUrl(props, key) {
-  const prop = props[key];
-  if (!prop) return '';
+/**
+ * Fonction "Radar" : Extrait l'URL du fichier même si le nom de la colonne est imprécis.
+ */
+function getFileUrl(props, exactColumnName) {
+  // Fonction de minage interne pour trouver le lien peu importe où il est caché
+  const extract = (p) => {
+    if (!p) return '';
+    // Si c'est un fichier en direct
+    if (p.type === 'files' && p.files && p.files.length > 0) {
+      return p.files[0].file?.url || p.files[0].external?.url || '';
+    }
+    // Si c'est une Agrégation (Rollup)
+    if (p.type === 'rollup' && p.rollup?.type === 'array') {
+      for (const item of p.rollup.array) {
+        if (item.type === 'files' && item.files && item.files.length > 0) {
+          return item.files[0].file?.url || item.files[0].external?.url || '';
+        }
+        if (item.type === 'url' && item.url) {
+          return item.url;
+        }
+      }
+    }
+    if (p.type === 'url') return p.url || '';
+    return '';
+  };
 
-  let filesArray = [];
+  // 1. On essaie la porte d'entrée normale (avec le nom exact)
+  let url = extract(props[exactColumnName]);
+  if (url) return url;
 
-  // Cas 1 : Fichier en direct
-  if (prop.type === 'files') {
-    filesArray = prop.files;
-  } 
-  // Cas 2 : Fichier via Agrégation (Rollup)
-  else if (prop.type === 'rollup' && prop.rollup.type === 'array') {
-    const itemWithFiles = prop.rollup.array.find(item => item.type === 'files');
-    if (itemWithFiles) {
-      filesArray = itemWithFiles.files;
+  // 2. Plan de secours : on scanne TOUTES les propriétés de la ligne
+  for (const key in props) {
+    if (props[key].type === 'files' || props[key].type === 'rollup') {
+      let fallback = extract(props[key]);
+      if (fallback) return fallback;
     }
   }
 
-  if (!filesArray || filesArray.length === 0) return '';
-  
-  const fileObj = filesArray[0];
-  return fileObj.file?.url || fileObj.external?.url || '';
+  return '';
 }
